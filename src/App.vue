@@ -6,11 +6,7 @@
       <router-link to="/about">About</router-link>
     </nav>
   </div> -->
-  <div class="pt-5">
-    <div class="container">
-      <router-view/>
-    </div>
-  </div>
+  <router-view/>
 </template>
 
 <script lang="ts">
