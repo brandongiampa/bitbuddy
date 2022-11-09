@@ -68,6 +68,9 @@
 </template>
 
 <script lang="js">
+
+    const NUMBER_INPUT_DECIMAL_PLACES = 5
+
     import CurrencyCategoryRadioGroup from './currencyconversionformcomponents/CurrencyCategoryRadioGroup.vue'
     import CurrencyAmountTextInput from './currencyconversionformcomponents/CurrencyAmountTextInput.vue'
     import CurrencySelect from './currencyconversionformcomponents/CurrencySelect.vue'
@@ -140,10 +143,10 @@
 
                 this.rightValue = this.roundFive(leftToUSD / conversions2[rightCurrency])
             },
-            roundFive(n) {
-                n *= 100000
+            round(n) {
+                for (let i = 0; i < NUMBER_INPUT_DECIMAL_PLACES; i++) n *= 10
                 n = Math.round(n)
-                n /= 100000
+                for (let i = 0; i < NUMBER_INPUT_DECIMAL_PLACES; i++) n /= 10
                 return n
             }
         },
