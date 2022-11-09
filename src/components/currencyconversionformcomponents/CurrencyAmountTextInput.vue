@@ -7,7 +7,7 @@
             :id="`currency-amount-text-input-${index}`"
             :value="amountOfCurrency"
             :disabled="disableClicks"
-            step=".00001"
+            :step="increment"
         >
     </div>
 </template>
@@ -30,6 +30,10 @@ export default {
         },
         disableClicks: {
             type: Boolean,
+            required: true
+        },
+        increment: {
+            type: Number,
             required: true
         }
     },
