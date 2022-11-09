@@ -29,43 +29,34 @@
     export default {
         methods: {
             changeCurrencyCategory(e) {
-                if (e && e.target) {
-                    console.log(e.target)
-                    if (e.target.value !== undefined) {
-                        const category = e.target.value
-                        if (this.selectedCurrencyCategory !== category) {
-                            this.selectedCurrencyCategory = category
-                            this.$emit('changeCurrencyCategory', category)
-                        }
-                    }
+                const category = e.target.value
+                if (category !== this.selectedCurrencyCategory) {
+                    this.$emit('changeCurrencyCategory', category)
                 }
             }
-        },
-        computed: {
-            cryptoInputId() {
-                return "currency-category-radio-input-crypto-" + this.index.toString()
-            },
-            fiatInputId() {
-                return `currency-category-radio-input-fiat-${this.index}`
-            },
-
         },
         props: {
             index: {
                 type: Number,
                 required: true
             },
-            defaultCurrencyCategory: {
+            selectedCurrencyCategory: {
                 type: String,
-                required: false,
-                default: 'crypto'
+                required: true
+            },
+            disableClicks: {
+                type: Boolean,
+                required: true
             }
         },
-        data() {
-            return {
-                selectedCurrencyCategory: this.defaultCurrencyCategory
+        computed: {
+            cryptoInputId() {
+                return `currency-category-radio-input-crypto-${this.index}`
+            },
+            fiatInputId() {
+                return `currency-category-radio-input-fiat-${this.index}`
             }
-        },
+        },  
         emits: [
             'changeCurrencyCategory'
         ]

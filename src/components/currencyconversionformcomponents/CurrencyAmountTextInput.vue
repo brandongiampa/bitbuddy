@@ -2,34 +2,39 @@
     <div>
         <input 
             type="number" 
-            class="w-100" 
-            v-model="currencyAmount"
+            class="w-100"
             @change="changeAmount"
+            :id="`currency-amount-text-input-${index}`"
+            :value="amountOfCurrency"
+            :disabled="disableClicks"
+            step=".00001"
         >
     </div>
 </template>
 
 <script lang="js">
 export default {
-    data() {
-        return {
-            currencyAmount: this.defaultAmount
-        }
-    },
     methods: {
-        changeAmount() {
-            this.$emit('transmitAmountChange', this.currencyAmount)
+        changeAmount(e) {
+            this.$emit('changeAmount', e.target.value)
         }
     },
     props: {
-        defaultAmount: {
+        amountOfCurrency: {
             type: Number,
-            required: false,
-            default: 100
+            required: true
+        },
+        index: {
+            type: Number,
+            required: true
+        },
+        disableClicks: {
+            type: Boolean,
+            required: true
         }
     },
     emits: [
-        'transmitAmountChange'
+        'changeAmount'
     ]
 }
 </script>
