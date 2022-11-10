@@ -1,6 +1,6 @@
 <template>
-    <div class="mt-2 px-2 py-1 incrementer">
-        <div>Increment: <span class="text-primary">{{increment}}</span></div>
+    <div class="mt-2 px-2 pt-1 pb-2 incrementer">
+        <div>Increment: <span class="text-orange">{{increment}}</span></div>
         <button 
             @click="changeIncrementValue(1/100)"
             :disabled="increment/100 < minIncrement"
@@ -61,8 +61,11 @@
 
 <style lang="scss" scoped>
 .incrementer {
-    text-align: left;
+    text-align: center;
     background: #ffffff11;
+    .text-orange {
+        color: #E9AC16;
+    }
     button {
         border-radius: 25%;
         font-size: .65em;
@@ -73,7 +76,7 @@
         color: white;
         margin: 3px;
         &:disabled {
-            background-color: #E9AC16;
+            opacity: .2;
         }
     }
     
