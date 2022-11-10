@@ -80,6 +80,11 @@
                 />
             </div>
         </div>
+        <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -128,11 +133,11 @@
                 this.convertRightValue()
             },
             changeLeftValue(value) {
-                this.leftValue = value
+                this.leftValue = parseInt(value)
                 this.convertRightValue()
             },
             changeRightValue(value) {
-                this.rightValue = value
+                this.rightValue = parseInt(value)
                 this.convertLeftValue()
             },
             convertLeftValue() {
