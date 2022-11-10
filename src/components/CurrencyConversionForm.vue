@@ -193,21 +193,6 @@
                 rightIncrement: 1,
                 minIncrement: .00001,
                 maxIncrement: 10000,
-
-                /* START FUTURE PROPS */
-                // cryptoArray: ['BTC','ETH','MKR'],
-                // fiatArray: ['USD','CAD','KRW'],
-                // disableInterface: false,
-                // cryptosToUSD: {
-                //     BTC: 20000,
-                //     ETH: 1500,
-                //     MKR: 850
-                // },
-                // fiatsToUSD: {
-                //     USD: 1,
-                //     CAD: .75,
-                //     KRW: .00075
-                // }
             }
         },
         computed: {
