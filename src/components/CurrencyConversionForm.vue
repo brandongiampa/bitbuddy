@@ -91,6 +91,7 @@
     import CurrencyAmountTextInput from './currencyconversionformcomponents/CurrencyAmountTextInput.vue'
     import CurrencySelect from './currencyconversionformcomponents/CurrencySelect.vue'
     import IncrementWidget from './currencyconversionformcomponents/IncrementWidget.vue'
+    import { mapGetters } from 'vuex'
 
     export default {
         methods: {
@@ -174,13 +175,14 @@
                 for (let i = 0; i < NUMBER_INPUT_DECIMAL_PLACES; i++) n *= 10
                 n = Math.round(n)
                 for (let i = 0; i < NUMBER_INPUT_DECIMAL_PLACES; i++) n /= 10
+                console.log(n)
                 return n
             }
         },
         data() {
             return {
-                leftValue: 1,
-                rightValue: 2,
+                leftValue: 0,
+                rightValue: 0,
                 leftCurrency: 'BTC',
                 rightCurrency: 'USD',
                 leftCategory: 'crypto',
@@ -193,22 +195,30 @@
                 maxIncrement: 10000,
 
                 /* START FUTURE PROPS */
-                cryptoArray: ['BTC','ETH','MKR'],
-                fiatArray: ['USD','CAD','KRW'],
-                disableInterface: false,
-                cryptosToUSD: {
-                    BTC: 20000,
-                    ETH: 1500,
-                    MKR: 850
-                },
-                fiatsToUSD: {
-                    USD: 1,
-                    CAD: .75,
-                    KRW: .00075
-                }
+                // cryptoArray: ['BTC','ETH','MKR'],
+                // fiatArray: ['USD','CAD','KRW'],
+                // disableInterface: false,
+                // cryptosToUSD: {
+                //     BTC: 20000,
+                //     ETH: 1500,
+                //     MKR: 850
+                // },
+                // fiatsToUSD: {
+                //     USD: 1,
+                //     CAD: .75,
+                //     KRW: .00075
+                // }
             }
         },
         computed: {
+            ...mapGetters([
+                'lastUpdateTime', 
+                'hadError',
+                'cryptoArray',
+                'fiatArray',
+                'cryptosToUSD',
+                'fiatsToUSD'
+            ]),
             leftCurrencyList() {
                 if (this.leftCategory === 'crypto') {
                     return this.cryptoArray.filter((crypto) => crypto !== this.rightCurrency)
@@ -234,7 +244,7 @@
         },
         created() {
             this.disableInterface = true
-            this.convertRightValue()
+            //this.convertRightValue()
         },
         mounted() {
             this.disableInterface = false

@@ -2,16 +2,40 @@ import axios from 'axios'
 
 const currencyConversionModule = {
     state: {
+        leftCategory: 'crypto',
+        leftValue: 1,
+        leftCurrency: 'BTC',
+        rightCategory: 'fiat',
+        rightValue: 1,
+        rightCurrency: 'USD',
         disableInput: false,
         cryptoArray: [],
         fiatArray: [],
-        cryptoExchangesObj: null,
-        fiatExchangesObj: null,
+        cryptosToUSD: null,
+        fiatToUSD: null,
         cryptoInfo: null,
         lastUpdateTime: null,
         hadError: false
       },
       getters: {
+        leftCategory(state) {
+          return state.leftCurrencyCategory
+        },
+        leftValue(state) {
+          return state.leftValue
+        },
+        leftCurrency(state) {
+          return state.leftCurrency
+        },
+        rightCategory(state) {
+          return state.rightCurrencyCategory
+        },
+        rightValue(state) {
+          return state.rightValue
+        },
+        rightCurrency(state) {
+          return state.rightCurrency
+        },
         disableInput(state) {
           return state.disableInput
         },
@@ -21,11 +45,11 @@ const currencyConversionModule = {
         fiatArray(state) {
           return state.fiatArray
         },
-        cryptoExchangesObj(state) {
-          return state.cryptoExchanges
+        cryptosToUSD(state) {
+          return state.cryptosToUSD
         },
-        fiatExchangesObj(state) {
-          return state.fiatExchanges
+        fiatsToUSD(state) {
+          return state.fiatsToUSD
         },
         cryptoInfo(state) {
           return state.cryptoInfo
@@ -38,6 +62,24 @@ const currencyConversionModule = {
         }
       },
       mutations: {
+        changeLeftCategory(state, category) {
+          state.leftCategory = category
+        },
+        changeLeftValue(state, value) {
+          state.leftValue = value
+        },
+        changeLeftCurrency(state, currency) {
+          state.leftCurrency = currency
+        },
+        changeRightCategory(state, category) {
+          state.rightCategory = category
+        },
+        changeRightValue(state, value) {
+          state.rightValue = value
+        },
+        changeRightCurrency(state, currency) {
+          state.rightCurrency = currency
+        },
         enableInput(state) {
           state.disableInput = false
         },
@@ -48,27 +90,26 @@ const currencyConversionModule = {
           const arr = []
           for (const coin of coins) arr.push(coin.symbol)
           state.cryptoArray = arr
-          console.log(state.cryptoArray)
         },
         populateFiatArray(state, rates) {
           const arr = []
           for (const [key] of Object.entries(rates)) arr.push(key)
           state.fiatArray = arr
-          console.log(state.fiatArray)
         },
         populateCryptoExchangesObj(state, coins) {
           const obj = {}
           for (const coin of coins) obj[coin.symbol] = coin.price
-          state.cryptoExchangesObj = obj
-          console.log(state.cryptoExchangesObj)
+          state.cryptosToUSD = obj
         },
-        setFiatExchangesObj(state, obj) {
-          state.fiatExchangesObj = obj
-          console.log(state.fiatExchangesObj)
+        setFiatExchangesObj(state, fiatsFromUSD) {
+          const fiatsToUSD = {}
+          for (let [key, val] of Object.entries(fiatsFromUSD)) {
+            fiatsToUSD[key] = 1/val
+          }
+          state.fiatsToUSD = fiatsToUSD
         },
         setLastUpdateTime(state) {
           state.lastUpdateTime = Date.now()
-          console.log(state.lastUpdateTime)
         },
         throwError(state) {
           state.hadError = true
@@ -78,6 +119,24 @@ const currencyConversionModule = {
         }
       },
       actions: {
+        changeLeftCategory({commit}, category) {
+          commit('changeLeftCategory', category)
+        },
+        changeLeftValue({commit}, value) {
+          commit('changeLeftValue', value)
+        },
+        changeLeftCurrency({commit}, currency) {
+          commit('changeLeftCurrency', currency)
+        },
+        changeRightCategory({commit}, category) {
+          commit('changeRightCategory', category)
+        },
+        changeRightValue({commit}, value) {
+          commit('changeRightValue', value)
+        },
+        changeRightCurrency({commit}, currency) {
+          commit('changeRightCurrency', currency)
+        },
         enableInput({commit}) {
           commit('enableInput')
         },
@@ -134,7 +193,7 @@ const currencyConversionModule = {
               commit('setFiatExchangesObj', rates)
             })
             .catch(function (error) {
-              commit('throwError')
+              //commit('throwError')
               console.log(error)
             })
             .then(()=> {
