@@ -103,8 +103,14 @@
 </template>
 
 <script lang="js">
-
+    /**
+     * Interface front end constants
+     */
     const NUMBER_INPUT_DECIMAL_PLACES = 5
+
+    /**
+     * Page refresh constants
+     */
     const MINUTES_BETWEEN_REFRESHES = 5
     const MILLISECONDS_BETWEEN_REFRESHES = MINUTES_BETWEEN_REFRESHES * 60 * 1000
 
