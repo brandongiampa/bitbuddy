@@ -14,16 +14,7 @@ import NavigationBar from './components/NavigationBar.vue'
 
 export default {
   methods: {
-    refreshDataFiveTimes() {
-      if (this.numberOfAPIRefreshes <= 5) {
-        this.$store.dispatch('populateArraysAndSetObjects')
-        this.numberOfAPIRefreshes++
-      }
-      else {
-        clearInterval(this.interval)
-        console.log("stopping interval")
-      }
-    }
+    
   },
   data() {
     return {
@@ -39,11 +30,8 @@ export default {
     NavigationBar
   },
   created() {
-    this.$store.dispatch('populateArraysAndSetObjects')
+    //this.$store.dispatch('populateArraysAndSetObjects')
   },
-  mounted() {
-    this.interval = setInterval(this.refreshDataFiveTimes, 300000)
-  }
 }
 </script>
 

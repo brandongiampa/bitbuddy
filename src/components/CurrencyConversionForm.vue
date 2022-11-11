@@ -1,88 +1,102 @@
 <template>
-    <div class="position-relative">
-        <div class="row">
-            <div class="col-12 col-lg-6 p-0 p-lg-3">
-                <!--START LEFT FORM-->
-                <h5 class="text-center">FROM:</h5>
-                <div class="px-5 pt-2">
-                    <currency-category-radio-group 
-                        :index="1"
-                        :selected-currency-category="leftCategory"
-                        :disable-clicks="disableInterface"
-                        @change-currency-category="changeLeftCategory"
-                    />
-                </div>
-                <div class="row px-5 px-lg-0 py-0">
-                    <div class="col-12 col-sm-7 p-0 m-0">
-                        <currency-amount-text-input 
-                            :amount-of-currency="leftValue"
+    <div class="col-md-5 p-lg-5 mx-auto position-relative">
+        <h1 class="display-4 font-weight-normal">Bitbuddy Realtime Converter</h1>
+        <div class="position-relative">
+            <div class="row">
+                <div class="col-12 col-lg-6 p-0 p-lg-3">
+                    <!--START LEFT FORM-->
+                    <h5 class="text-center">FROM:</h5>
+                    <div class="px-5 pt-2">
+                        <currency-category-radio-group 
                             :index="1"
+                            :selected-currency-category="leftCategory"
                             :disable-clicks="disableInterface"
-                            @change-amount="changeLeftValue"
+                            @change-currency-category="changeLeftCategory"
+                        />
+                    </div>
+                    <div class="row px-5 px-lg-0 py-0">
+                        <div class="col-12 col-sm-7 p-0 m-0">
+                            <currency-amount-text-input 
+                                :amount-of-currency="leftValue"
+                                :index="1"
+                                :disable-clicks="disableInterface"
+                                @change-amount="changeLeftValue"
+                                :increment="leftIncrement"
+                            />
+                        </div>
+                        <div class="col-12 col-sm-5 m-0 p-0">
+                            <currency-select 
+                                :currencies="leftCurrencyList"
+                                :selected-currency="leftCurrency"
+                                :index="1"
+                                :disable-clicks="disableInterface"
+                                @change-selected-currency="changeLeftCurrency"
+                            />
+                        </div>
+                    </div>
+                    <div class="px-5 px-lg-0 py-0">
+                        <increment-widget 
+                            @change-increment-value="changeIncrementValueLeft" 
                             :increment="leftIncrement"
-                        />
-                    </div>
-                    <div class="col-12 col-sm-5 m-0 p-0">
-                        <currency-select 
-                            :currencies="leftCurrencyList"
-                            :selected-currency="leftCurrency"
-                            :index="1"
-                            :disable-clicks="disableInterface"
-                            @change-selected-currency="changeLeftCurrency"
+                            :min-increment="minIncrement"
+                            :max-increment="maxIncrement"
                         />
                     </div>
                 </div>
-                <div class="px-5 px-lg-0 py-0">
+                <div class="col-12 col-lg-6 p-3">
+                    <!--START RIGHT FORM-->
+                    <h5 class="text-center">TO:</h5>
+                    <div class="px-5 pt-2">
+                        <currency-category-radio-group 
+                            :index="2"
+                            :selected-currency-category="rightCategory"
+                            :disable-clicks="disableInterface"
+                            @change-currency-category="changeRightCategory"
+                        />
+                    </div>
+                    <div class="row">
+                        <div class="col-7 p-0 m-0">
+                            <currency-amount-text-input 
+                                :amount-of-currency="rightValue"
+                                :index="2"
+                                :disable-clicks="disableInterface"
+                                @change-amount="changeRightValue"
+                                :increment="rightIncrement"
+                            />
+                        </div>
+                        <div class="col-5 m-0 p-0">
+                            <currency-select 
+                                :currencies="rightCurrencyList"
+                                :selected-currency="rightCurrency"
+                                :index="2"
+                                :disable-clicks="disableInterface"
+                                @change-selected-currency="changeRightCurrency"
+                            />
+                        </div>
+                    </div>
                     <increment-widget 
-                        @change-increment-value="changeIncrementValueLeft" 
-                        :increment="leftIncrement"
+                        @change-increment-value="changeIncrementValueRight" 
+                        :increment="rightIncrement"
                         :min-increment="minIncrement"
                         :max-increment="maxIncrement"
                     />
                 </div>
             </div>
-            <div class="col-12 col-lg-6 p-3">
-                <!--START RIGHT FORM-->
-                <h5 class="text-center">TO:</h5>
-                <div class="px-5 pt-2">
-                    <currency-category-radio-group 
-                        :index="2"
-                        :selected-currency-category="rightCategory"
-                        :disable-clicks="disableInterface"
-                        @change-currency-category="changeRightCategory"
-                    />
-                </div>
-                <div class="row">
-                    <div class="col-7 p-0 m-0">
-                        <currency-amount-text-input 
-                            :amount-of-currency="rightValue"
-                            :index="2"
-                            :disable-clicks="disableInterface"
-                            @change-amount="changeRightValue"
-                            :increment="rightIncrement"
-                        />
-                    </div>
-                    <div class="col-5 m-0 p-0">
-                        <currency-select 
-                            :currencies="rightCurrencyList"
-                            :selected-currency="rightCurrency"
-                            :index="2"
-                            :disable-clicks="disableInterface"
-                            @change-selected-currency="changeRightCurrency"
-                        />
-                    </div>
-                </div>
-                <increment-widget 
-                    @change-increment-value="changeIncrementValueRight" 
-                    :increment="rightIncrement"
-                    :min-increment="minIncrement"
-                    :max-increment="maxIncrement"
-                />
-            </div>
+            <span class="text-center">{{timeString}}</span>
         </div>
-        <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
+        <div v-if="disableInterface" class="overlay">
+            <span class="text-light">Loading data...</span>
+            <br>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                <div class="progress-bar" 
+                    role="progressbar" 
+                    :aria-valuenow="loadingProgress" 
+                    aria-valuemin="0" 
+                    aria-valuemax="100"
+                    :style="`width: ${loadingProgress}%;`"
+                >
+                {{loadingProgress}}%
+                </div>
             </div>
         </div>
     </div>
@@ -91,6 +105,8 @@
 <script lang="js">
 
     const NUMBER_INPUT_DECIMAL_PLACES = 5
+    const MINUTES_BETWEEN_REFRESHES = 5
+    const MILLISECONDS_BETWEEN_REFRESHES = MINUTES_BETWEEN_REFRESHES * 60 * 1000
 
     import CurrencyCategoryRadioGroup from './currencyconversionformcomponents/CurrencyCategoryRadioGroup.vue'
     import CurrencyAmountTextInput from './currencyconversionformcomponents/CurrencyAmountTextInput.vue'
@@ -133,11 +149,11 @@
                 this.convertRightValue()
             },
             changeLeftValue(value) {
-                this.leftValue = parseInt(value)
+                this.leftValue = this.round(parseFloat(value))
                 this.convertRightValue()
             },
             changeRightValue(value) {
-                this.rightValue = parseInt(value)
+                this.rightValue = this.round(parseFloat(value))
                 this.convertLeftValue()
             },
             convertLeftValue() {
@@ -180,13 +196,28 @@
                 for (let i = 0; i < NUMBER_INPUT_DECIMAL_PLACES; i++) n *= 10
                 n = Math.round(n)
                 for (let i = 0; i < NUMBER_INPUT_DECIMAL_PLACES; i++) n /= 10
-                console.log(n)
                 return n
+            },
+            async refreshDataFiveTimes() {
+                if (this.numberOfAPIRefreshes <= 5) {
+                    await this.$store.dispatch('populateArraysAndSetObjects')
+                    this.numberOfAPIRefreshes++
+                    this.convertRightValue()
+                }
+                else {
+                    clearInterval(this.interval)
+                }
+            },
+            async setInitialValues() {
+                await this.$store.dispatch('populateArraysAndSetObjects')
+                this.convertRightValue()
             }
         },
         data() {
             return {
-                leftValue: 0,
+                numberOfAPIRefreshes: 0,
+                interval: null,
+                leftValue: 1,
                 rightValue: 0,
                 leftCurrency: 'BTC',
                 rightCurrency: 'USD',
@@ -198,16 +229,19 @@
                 rightIncrement: 1,
                 minIncrement: .00001,
                 maxIncrement: 10000,
+                storedTimestamp: null
             }
         },
         computed: {
             ...mapGetters([
                 'lastUpdateTime', 
+                'loadingProgress',
                 'hadError',
                 'cryptoArray',
                 'fiatArray',
                 'cryptosToUSD',
-                'fiatsToUSD'
+                'fiatsToUSD',
+                'disableInterface'
             ]),
             leftCurrencyList() {
                 if (this.leftCategory === 'crypto') {
@@ -224,6 +258,12 @@
                 else {
                     return this.fiatArray.filter((fiat) => fiat !== this.leftCurrency)
                 }
+            },
+            timeString() {
+                const timestamp = this.$store.getters.lastUpdateTime
+                if (!timestamp) return 'not yet updated'
+                const str = timestamp.toString()
+                return `Last updated: ${str}`
             }
         },
         components: {
@@ -233,16 +273,13 @@
             IncrementWidget
         },
         created() {
-            this.disableInterface = true
-            //this.convertRightValue()
-        },
-        mounted() {
-            this.disableInterface = false
+            this.setInitialValues()
+            this.interval = setInterval(this.refreshDataFiveTimes, MILLISECONDS_BETWEEN_REFRESHES)
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     input[type=radio] {
         display: none;
     }
@@ -255,5 +292,22 @@
     input[type=radio]:checked ~ label {
         background-color: black;
         color: #efefef;
+    }
+    .overlay {
+        background: #111111ee;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        transition-duration: .05s !important;
+        .progress {
+            width: 80%;
+        }
     }
 </style>
