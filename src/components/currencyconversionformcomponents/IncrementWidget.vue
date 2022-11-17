@@ -69,7 +69,7 @@
     button {
         border-radius: 25%;
         font-size: .65em;
-        background-color: #E9AC16;
+        background-color: #f7931A;
         height: 20px;
         width: 40px;
         border: none;
