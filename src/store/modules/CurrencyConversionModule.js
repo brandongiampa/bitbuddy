@@ -9,7 +9,7 @@ const OPTIONS_CRYPTO = {
   url: 'https://coinranking1.p.rapidapi.com/coins',
   params: {
       referenceCurrencyUuid: 'yhjMzLPhuIDl',
-      timePeriod: '24h',
+      timePeriod: '30d',
       'tiers[0]': '1',
       orderBy: 'marketCap',
       orderDirection: 'desc',
@@ -132,6 +132,7 @@ const currencyConversionModule = {
               commit('populateCryptoArray', coins)
               commit('populateCryptoExchangesObj', coins)
               commit('setLoadingProgress', 99)
+              console.log(coins)
             })
             .catch(function (error) {
               commit('throwError')

@@ -1,11 +1,5 @@
 <template>
   <navigation-bar></navigation-bar>
-  <!-- <div class="container">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-  </div> -->
   <router-view/>
 </template>
 
@@ -14,7 +8,7 @@ import NavigationBar from './components/NavigationBar.vue'
 
 export default {
   methods: {
-    
+
   },
   data() {
     return {
@@ -30,7 +24,7 @@ export default {
     NavigationBar
   },
   created() {
-    //this.$store.dispatch('populateArraysAndSetObjects')
+    this.$store.dispatch('createObjects')
   },
 }
 </script>

@@ -133,6 +133,7 @@
                 }
                 this.leftStoredCurrency = toStore
                 this.convertRightValue()
+                if (this.leftCategory === "crypto") this.$store.dispatch('setGlobalCrypto', this.leftCurrency)
             },
             changeRightCategory(category) {
                 const toStore = this.rightCurrency
@@ -145,14 +146,17 @@
                 }
                 this.rightStoredCurrency = toStore
                 this.convertRightValue()
+                if (this.rightCategory === "crypto") this.$store.dispatch('setGlobalCrypto', this.rightCurrency)
             },
             changeLeftCurrency(currency) {
                 this.leftCurrency = currency
                 this.convertRightValue()
+                if (this.leftCategory === "crypto") this.$store.dispatch('setGlobalCrypto', this.leftCurrency)
             },
             changeRightCurrency(currency) {
                 this.rightCurrency = currency
                 this.convertRightValue()
+                if (this.rightCategory === "crypto") this.$store.dispatch('setGlobalCrypto', this.rightCurrency)
             },
             changeLeftValue(value) {
                 this.leftValue = this.round(parseFloat(value))
