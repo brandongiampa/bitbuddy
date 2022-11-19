@@ -2,7 +2,7 @@
     <div class="crypto-info p-5">
         <div class="container">
             <header>
-                <a :href="crypto.getCoinrankingURL()" target="_blank">
+                <a :href="crypto.getCoinrankingURL()" target="_blank" :style="`color: ${linkColor};`">
                     <img :src="crypto.getIconURL()">
                     <h2>{{`${crypto.getName()} (${crypto.getSymbol()})`}}</h2>
                 </a>
@@ -38,16 +38,16 @@
                 }
                 else {
                     return {
-                        getName: ()=> {return null},
-                        getSymbol: ()=> {return null},
+                        getName: ()=> {return "Loading cryptocurrencies..."},
+                        getSymbol: ()=> {return "0"},
                         getUUID: ()=> {return null},
-                        getRank: ()=> {return null},
-                        getIconURL: ()=> {return null},
+                        getRank: ()=> {return "0"},
+                        getIconURL: ()=> {return "../assets/logo-orange.png"},
                         getToUSD: ()=> {return null},
                         getSparkline: ()=> {return [0,100]},
-                        getMarketCap: ()=> {return null},
-                        getChange: ()=> {return null},
-                        getCoinrankingURL: ()=> {return null},
+                        getMarketCap: ()=> {return "0"},
+                        getChange: ()=> {return "0"},
+                        getCoinrankingURL: ()=> {return "0"},
                         getColor: ()=> {return '#000000'}
                     }
                 }
@@ -63,27 +63,66 @@
                         }
                     ]
                 }
-                // return {
-                //     labels: ['','','','','','','','','','','','','','','','','','','','','','','','',''],
-                //     datasets: {
-                //         label: this.crypto.getName(),
-                //         backgroundColor: this.crypto.getColor(),
-                //         data: this.crypto.getSparkline()
-                //     }
-                // }
             },
-            // sparklineMin: function() {
-            //     if (!this.$store.getters.globalCrypto || !this.$store.getters.cryptosObjects[this.$store.getters.globalCrypto]) return 0
-            //     const crypto = this.$store.getters.cryptosObjects[this.$store.getters.globalCrypto]
-            //     const range = Math.max(...crypto.getSparkline()) - Math.min(...crypto.getSparkline())
-            //     return Math.floor(Math.min(...crypto.getSparkline()) - (range/10))
-            // },
-            // sparklineMax: function() {
-            //     if (!this.$store.getters.globalCrypto || !this.$store.getters.cryptosObjects[this.$store.getters.globalCrypto]) return 100
-            //     const crypto = this.$store.getters.cryptosObjects[this.$store.getters.globalCrypto]
-            //     const range = Math.max(...crypto.getSparkline()) - Math.min(...crypto.getSparkline())                
-            //     return Math.ceil(Math.max(...crypto.getSparkline()) + (range/10))
-            // },
+            linkColor: function() {
+                const originalColor = this.crypto.getColor()
+                const complementaryColor = this.getComplementaryColor(originalColor)
+                const val1 = this.hexToRGB(complementaryColor.substring(1,3))
+                const val2 = this.hexToRGB(complementaryColor.substring(3,5))
+                const val3 = this.hexToRGB(complementaryColor.substring(5,7))
+                console.log(val1 + ", " + val2 + ", " + val3)
+                if (val1 > 170 && val2 > 170) {
+                    if (val3 > 170 < 128) {
+                        return "#" + this.getHexFromInt(255-val1) + this.getHexFromInt(255-val2) + this.getHexFromInt(val3 + 128)
+                    }
+                    else {
+                        return "#" + this.getHexFromInt(255-val1) + this.getHexFromInt(255-val2) + this.getHexFromInt(val3) 
+                    }
+                }
+                if (val2 > 170) {
+                    if (val3 > 170 < 128) {
+                        return "#" + this.getHexFromInt(val1) + this.getHexFromInt(255-val2) + this.getHexFromInt(val3 + 128)
+                    }
+                    else {
+                        return "#" + this.getHexFromInt(val1) + this.getHexFromInt(255-val2) + this.getHexFromInt(val3) 
+                    }
+                }
+                if (val1 > 170 & val3 > 170) {
+                    if (val3 > 170 < 128) {
+                        return "#" + this.getHexFromInt(255-val1) + this.getHexFromInt(val2) + this.getHexFromInt(val3 + 128)
+                    }
+                    else {
+                        return "#" + this.getHexFromInt(255-val1) + this.getHexFromInt(val2) + this.getHexFromInt(val3) 
+                    }
+                }
+                return complementaryColor
+            }
+        },
+        methods: {
+            hexToRGB: function(twoDigitHex) {
+                const ones = this.getSingleDigitHexValue(twoDigitHex[1])
+                const tens = this.getSingleDigitHexValue(twoDigitHex[0])
+                return (tens * 16) + ones 
+            },
+            getSingleDigitHexValue: function(digit) {
+                if (/[0-9]/.test(digit)) return parseInt(digit)
+                else if (/[A-F]/.test(digit)) return digit.charCodeAt(0) - 55
+                else return digit.charCodeAt(0) - 87
+            },
+            getHexFromInt: function(val) { //single 0-255 value
+                if (val === 255) return "FF"
+                const colors = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
+                const val1 = Math.floor(val/16)
+                const val2 = (val % 16)
+                console.log(val1)
+                return colors[val1] + colors[val2]
+            },
+            getComplementaryColor: function(hex) {
+                const R = 255 - this.hexToRGB(hex.substring(1,3))
+                const G = 255 - this.hexToRGB(hex.substring(3,5))
+                const B = 255 - this.hexToRGB(hex.substring(5,7))
+                return "#" + this.getHexFromInt(R) + this.getHexFromInt(G) + this.getHexFromInt(B)
+            }
         },
         data() {
             return {
