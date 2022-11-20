@@ -1,12 +1,12 @@
 <template>
-    <div class="col-md-5 p-lg-5 mx-auto position-relative">
-        <h1 class="display-4 font-weight-normal">Bitbuddy Realtime Converter</h1>
+    <div class="col-md-5 px-3 py-5 p-lg-5 mx-auto position-relative">
+        <h1 class="display-4 font-weight-normal mb-4">Bitbuddy Realtime Converter</h1>
         <div class="position-relative">
             <div class="row">
-                <div class="col-12 col-lg-6 p-0 p-lg-3">
+                <div :class="formClasses">
                     <!--START LEFT FORM-->
-                    <h5 class="text-center">FROM:</h5>
-                    <div class="px-5 pt-2">
+                    <h5>FROM:</h5>
+                    <div :class="radioGroupClasses">
                         <currency-category-radio-group 
                             :index="1"
                             :selected-currency-category="leftCategory"
@@ -14,8 +14,8 @@
                             @change-currency-category="changeLeftCategory"
                         />
                     </div>
-                    <div class="row px-5 px-lg-0 py-0">
-                        <div class="col-12 col-sm-7 p-0 m-0">
+                    <div :class="currencyRowClasses">
+                        <div :class="currencyAmountClasses">
                             <currency-amount-text-input 
                                 :amount-of-currency="leftValue"
                                 :index="1"
@@ -24,7 +24,7 @@
                                 :increment="leftIncrement"
                             />
                         </div>
-                        <div class="col-12 col-sm-5 m-0 p-0">
+                        <div :class="currencySelectClasses">
                             <currency-select 
                                 :currencies="leftCurrencyList"
                                 :selected-currency="leftCurrency"
@@ -34,7 +34,7 @@
                             />
                         </div>
                     </div>
-                    <div class="px-5 px-lg-0 py-0">
+                    <div :class="incrementWidgetClasses">
                         <increment-widget 
                             @change-increment-value="changeIncrementValueLeft" 
                             :increment="leftIncrement"
@@ -44,10 +44,10 @@
                     </div>
                     <!--END LEFT FORM-->
                 </div>
-                <div class="col-12 col-lg-6 p-3">
+                <div :class="formClasses">
                     <!--START RIGHT FORM-->
-                    <h5 class="text-center">TO:</h5>
-                    <div class="px-5 pt-2">
+                    <h5>TO:</h5>
+                    <div :class="radioGroupClasses">
                         <currency-category-radio-group 
                             :index="2"
                             :selected-currency-category="rightCategory"
@@ -55,8 +55,8 @@
                             @change-currency-category="changeRightCategory"
                         />
                     </div>
-                    <div class="row">
-                        <div class="col-7 p-0 m-0">
+                    <div :class="currencyRowClasses">
+                        <div :class="currencyAmountClasses">
                             <currency-amount-text-input 
                                 :amount-of-currency="rightValue"
                                 :index="2"
@@ -65,7 +65,7 @@
                                 :increment="rightIncrement"
                             />
                         </div>
-                        <div class="col-5 m-0 p-0">
+                        <div :class="currencySelectClasses">
                             <currency-select 
                                 :currencies="rightCurrencyList"
                                 :selected-currency="rightCurrency"
@@ -75,16 +75,18 @@
                             />
                         </div>
                     </div>
-                    <increment-widget 
-                        @change-increment-value="changeIncrementValueRight" 
-                        :increment="rightIncrement"
-                        :min-increment="minIncrement"
-                        :max-increment="maxIncrement"
-                    />
+                    <div :class="incrementWidgetClasses">
+                        <increment-widget 
+                            @change-increment-value="changeIncrementValueRight" 
+                            :increment="rightIncrement"
+                            :min-increment="minIncrement"
+                            :max-increment="maxIncrement"
+                        />
+                    </div>
                 </div>
                 <!--END RIGHT FORM-->
             </div>
-            <p style="font-weight:200; color: #f6f6f6; font-style: italic;" class="text-center font-weight-light font-italic">{{timeString}}</p>
+            <span style="font-weight:200; color: #f6f6f6; font-style: italic;" class="text-center font-weight-light font-italic">{{timeString}}</span>
         </div>
         <div v-if="disableInterface" class="overlay">
             <span class="text-light">Loading data...</span>
@@ -105,14 +107,6 @@
 </template>
 
 <script lang="js">
-    /**
-     * Interface front end constants
-     */
-    const NUMBER_INPUT_DECIMAL_PLACES = 5
-
-    /**
-     * Page refresh constants
-     */
     const MINUTES_BETWEEN_REFRESHES = 5
     const MILLISECONDS_BETWEEN_REFRESHES = MINUTES_BETWEEN_REFRESHES * 60 * 1000
 
@@ -244,7 +238,13 @@
                 rightIncrement: 1,
                 minIncrement: .00001,
                 maxIncrement: 10000,
-                storedTimestamp: null
+                storedTimestamp: null,
+                formClasses: 'col-12 col-lg-6 p-0 p-lg-3',
+                radioGroupClasses: 'px-5 pt-lg-2',
+                currencyRowClasses: 'row px-5 px-lg-0 py-0 mb-4 mb-md-0', //change mb according to whether increment widget displays
+                currencyAmountClasses: 'col-12 col-md-7 p-0 m-0',
+                currencySelectClasses: 'col-12 col-md-5 m-0 p-0',
+                incrementWidgetClasses: 'd-none d-md-block px-5 px-lg-0 py-0 mb-4'
             }
         },
         computed: {
@@ -295,6 +295,10 @@
 </script>
 
 <style lang="scss" scoped>
+    h5 {
+        color: #ccc !important;
+        font-weight: light !important;
+    }
     input[type=radio] {
         display: none;
     }
@@ -323,6 +327,9 @@
         transition-duration: .05s !important;
         .progress {
             width: 80%;
+            .progress-bar {
+                background-color: #f7931A;
+            }
         }
     }
 </style>
