@@ -67,11 +67,11 @@
         color: #E9AC16;
     }
     button {
-        border-radius: 25%;
+        border-radius: 40%;
         font-size: .65em;
         background-color: #f7931A;
         height: 20px;
-        width: 40px;
+        width: 30px;
         border: none;
         color: white;
         margin: 3px;
