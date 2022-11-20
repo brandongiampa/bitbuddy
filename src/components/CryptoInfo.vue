@@ -3,7 +3,9 @@
         <div class="container">
             <header>
                 <a :href="crypto.getCoinrankingURL()" target="_blank" :style="`color: ${linkColor};`">
-                    <img :src="crypto.getIconURL()">
+                    <div style="height:175px; display: flex; flex-direction: row; justify-content: center; align-items: flex-end;">
+                        <img :src="crypto.getIconURL()" />
+                    </div>
                     <h2>{{`${crypto.getName()} (${crypto.getSymbol()})`}}</h2>
                 </a>
                 <p>
