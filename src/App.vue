@@ -1,10 +1,12 @@
 <template>
   <navigation-bar></navigation-bar>
   <router-view/>
+  <bitbuddy-footer></bitbuddy-footer>
 </template>
 
 <script lang="js">
 import NavigationBar from './components/NavigationBar.vue'
+import BitbuddyFooter from './components/BitbuddyFooter.vue'
 
 export default {
   methods: {
@@ -21,7 +23,8 @@ export default {
     }
   },
   components: {
-    NavigationBar
+    NavigationBar,
+    BitbuddyFooter
   },
   created() {
     this.$store.dispatch('createObjects')
