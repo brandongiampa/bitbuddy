@@ -42,6 +42,7 @@
                             :max-increment="maxIncrement"
                         />
                     </div>
+                    <!--END LEFT FORM-->
                 </div>
                 <div class="col-12 col-lg-6 p-3">
                     <!--START RIGHT FORM-->
@@ -81,8 +82,9 @@
                         :max-increment="maxIncrement"
                     />
                 </div>
+                <!--END RIGHT FORM-->
             </div>
-            <p style="font-weight:200; font-style: italic;" class="text-center font-weight-light font-italic">{{timeString}}</p>
+            <p style="font-weight:200; color: #f6f6f6; font-style: italic;" class="text-center font-weight-light font-italic">{{timeString}}</p>
         </div>
         <div v-if="disableInterface" class="overlay">
             <span class="text-light">Loading data...</span>
@@ -138,12 +140,8 @@
             changeRightCategory(category) {
                 const toStore = this.rightCurrency
                 this.rightCategory = category
-                if (!this.rightStoredCurrency || this.rightStoredCurrency === this.leftCurrency) {
-                    this.rightCurrency = this.rightCurrencyList[0]
-                }
-                else {
-                    this.rightCurrency = this.rightStoredCurrency
-                }
+                if (!this.rightStoredCurrency || this.rightStoredCurrency === this.leftCurrency) this.rightCurrency = this.rightCurrencyList[0]
+                else this.rightCurrency = this.rightStoredCurrency
                 this.rightStoredCurrency = toStore
                 this.convertRightValue()
                 if (this.rightCategory === "crypto") this.$store.dispatch('setGlobalCrypto', this.rightCurrency)
@@ -167,7 +165,7 @@
                 this.convertLeftValue()
             },
             convertLeftValue() {
-                const rightValue = this.rightValue
+                const rightValue = this.round(this.rightValue)
                 const rightCurrency = this.rightCurrency 
                 const rightCategory = this.rightCategory
                 const cryptos = this.$store.getters.cryptosObjects
@@ -179,7 +177,7 @@
                 this.leftValue = this.round(leftFromUSD)
             },
             convertRightValue() {
-                const leftValue = this.leftValue
+                const leftValue = this.round(this.leftValue)
                 const leftCurrency = this.leftCurrency
                 const leftCategory = this.leftCategory
                 const cryptos = this.$store.getters.cryptosObjects
@@ -205,10 +203,15 @@
                 else this.rightIncrement *= factor
             },
             round(n) {
-                for (let i = 0; i < NUMBER_INPUT_DECIMAL_PLACES; i++) n *= 10
-                n = Math.round(n)
-                for (let i = 0; i < NUMBER_INPUT_DECIMAL_PLACES; i++) n /= 10
-                return n
+                let str = n.toString()
+                str = this.makeFivePlaceDecimalStringThenRoundOff(str)
+                return str
+            },
+            makeFivePlaceDecimalStringThenRoundOff(str) {
+                const spl = str.split('.')
+                if (spl.length < 2) return str
+                if (spl[1].length <= 5) return str
+                return spl[0] + "." + spl[1].substring(0, 5)
             },
             async refreshDataFiveTimes() {
                 if (this.numberOfAPIRefreshes <= 5) {
@@ -229,8 +232,8 @@
             return {
                 numberOfAPIRefreshes: 0,
                 interval: null,
-                leftValue: 1,
-                rightValue: 0,
+                leftValue: '1',
+                rightValue: '0',
                 leftCurrency: 'BTC',
                 rightCurrency: 'USD',
                 leftCategory: 'crypto',
@@ -264,20 +267,12 @@
                 return arr
             },
             leftCurrencyList() {
-                if (this.leftCategory === 'crypto') {
-                    return this.cryptoArray.filter((crypto) => crypto !== this.rightCurrency)
-                }
-                else {
-                    return this.fiatArray.filter((fiat) => fiat !== this.rightCurrency)
-                }
+                if (this.leftCategory === 'crypto') return this.cryptoArray.filter((crypto) => crypto !== this.rightCurrency)
+                else return this.fiatArray.filter((fiat) => fiat !== this.rightCurrency)
             },
             rightCurrencyList() {
-                if (this.rightCategory === 'crypto') {
-                    return this.cryptoArray.filter((crypto) => crypto !== this.leftCurrency)
-                }
-                else {
-                    return this.fiatArray.filter((fiat) => fiat !== this.leftCurrency)
-                }
+                if (this.rightCategory === 'crypto') return this.cryptoArray.filter((crypto) => crypto !== this.leftCurrency)
+                else return this.fiatArray.filter((fiat) => fiat !== this.leftCurrency)
             },
             timeString() {
                 const timestamp = this.$store.getters.lastUpdateTime

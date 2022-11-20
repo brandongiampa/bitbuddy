@@ -21,7 +21,7 @@ export default {
     },
     props: {
         amountOfCurrency: {
-            type: Number,
+            type: String,
             required: true
         },
         index: {
