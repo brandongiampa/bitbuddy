@@ -82,7 +82,7 @@
                     />
                 </div>
             </div>
-            <span class="text-center">{{timeString}}</span>
+            <p style="font-weight:200; font-style: italic;" class="text-center font-weight-light font-italic">{{timeString}}</p>
         </div>
         <div v-if="disableInterface" class="overlay">
             <span class="text-light">Loading data...</span>
@@ -212,7 +212,7 @@
             },
             async refreshDataFiveTimes() {
                 if (this.numberOfAPIRefreshes <= 5) {
-                    await this.$store.dispatch('populateArraysAndSetObjects')
+                    await this.$store.dispatch('createObjects')
                     this.numberOfAPIRefreshes++
                     this.convertRightValue()
                 }
@@ -249,15 +249,10 @@
                 'lastUpdateTime', 
                 'loadingProgress',
                 'hadError',
-                //'cryptoArray',
-                //'fiatArray',
                 'cryptosToUSD',
                 'fiatsToUSD',
                 'disableInterface'
             ]),
-            // cryptosToUSD() {
-
-            // },
             fiatArray() {
                 const arr = []
                 for (let [key] of Object.entries(this.$store.getters.fiatsObjects)) arr.push(key)
