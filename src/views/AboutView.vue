@@ -1,5 +1,15 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <hero-section :is-main-page="false" />
   </div>
 </template>
+
+<script lang="js">
+  import HeroSection from '@/components/HeroSection.vue'; // @ is an alias to /src
+
+  export default {
+    components: {
+      HeroSection
+    }
+  }
+</script>

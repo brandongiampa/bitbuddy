@@ -170,23 +170,25 @@
                 const rightValue = this.rightValue
                 const rightCurrency = this.rightCurrency 
                 const rightCategory = this.rightCategory
-                const conversions1 = rightCategory === 'crypto' ? this.cryptosToUSD : this.fiatsToUSD
-                const rightToUSD = rightValue * conversions1[rightCurrency]
+                const cryptos = this.$store.getters.cryptosObjects
+                const fiats = this.$store.getters.fiatsObjects
+                const rightToUSD = rightCategory === 'crypto' ? cryptos[rightCurrency].getToUSD() * rightValue : fiats[rightCurrency].getToUSD() * rightValue 
                 const leftCurrency = this.leftCurrency
                 const leftCategory = this.leftCategory
-                const conversions2 = leftCategory === 'crypto' ? this.cryptosToUSD : this.fiatsToUSD
-                this.leftValue = this.round(rightToUSD / conversions2[leftCurrency])
+                const leftFromUSD = leftCategory === 'crypto' ? cryptos[leftCurrency].getFromUSD() * rightToUSD : fiats[leftCurrency].getFromUSD() * rightToUSD
+                this.leftValue = this.round(leftFromUSD)
             },
             convertRightValue() {
                 const leftValue = this.leftValue
                 const leftCurrency = this.leftCurrency
                 const leftCategory = this.leftCategory
-                const conversions1 = leftCategory === 'crypto' ? this.cryptosToUSD : this.fiatsToUSD
-                const leftToUSD = leftValue * conversions1[leftCurrency]
+                const cryptos = this.$store.getters.cryptosObjects
+                const fiats = this.$store.getters.fiatsObjects
+                const leftToUSD = leftCategory === 'crypto' ? cryptos[leftCurrency].getToUSD() * leftValue : fiats[leftCurrency].getToUSD() * leftValue 
                 const rightCurrency = this.rightCurrency 
                 const rightCategory = this.rightCategory
-                const conversions2 = rightCategory === 'crypto' ? this.cryptosToUSD : this.fiatsToUSD
-                this.rightValue = this.round(leftToUSD / conversions2[rightCurrency])
+                const rightFromUSD = rightCategory === 'crypto' ? cryptos[rightCurrency].getFromUSD() * leftToUSD : fiats[rightCurrency].getFromUSD() * leftToUSD 
+                this.rightValue = this.round(rightFromUSD)
             },
             changeIncrementValueLeft(factor) {
                 //Workaround for floating point error when multiplying .1 * .1.
@@ -219,7 +221,7 @@
                 }
             },
             async setInitialValues() {
-                await this.$store.dispatch('populateArraysAndSetObjects')
+                await this.$store.dispatch('createObjects')
                 this.convertRightValue()
             }
         },
@@ -247,12 +249,25 @@
                 'lastUpdateTime', 
                 'loadingProgress',
                 'hadError',
-                'cryptoArray',
-                'fiatArray',
+                //'cryptoArray',
+                //'fiatArray',
                 'cryptosToUSD',
                 'fiatsToUSD',
                 'disableInterface'
             ]),
+            // cryptosToUSD() {
+
+            // },
+            fiatArray() {
+                const arr = []
+                for (let [key] of Object.entries(this.$store.getters.fiatsObjects)) arr.push(key)
+                return arr
+            },
+            cryptoArray() {
+                const arr = []
+                for (let [key] of Object.entries(this.$store.getters.cryptosObjects)) arr.push(key)
+                return arr
+            },
             leftCurrencyList() {
                 if (this.leftCategory === 'crypto') {
                     return this.cryptoArray.filter((crypto) => crypto !== this.rightCurrency)

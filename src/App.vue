@@ -39,5 +39,7 @@ export default {
     font-family: 'Orbitron', sans-serif;
     background-color: #fefefe;
   }
-
+a {
+  color: #0d579b;
+}
 </style>

@@ -42,7 +42,7 @@
                         getSymbol: ()=> {return "0"},
                         getUUID: ()=> {return null},
                         getRank: ()=> {return "0"},
-                        getIconURL: ()=> {return "../assets/logo-orange.png"},
+                        getIconURL: ()=> {return `./logo-orange.png`},
                         getToUSD: ()=> {return null},
                         getSparkline: ()=> {return [0,100]},
                         getMarketCap: ()=> {return "0"},
@@ -70,7 +70,6 @@
                 const val1 = this.hexToRGB(complementaryColor.substring(1,3))
                 const val2 = this.hexToRGB(complementaryColor.substring(3,5))
                 const val3 = this.hexToRGB(complementaryColor.substring(5,7))
-                console.log(val1 + ", " + val2 + ", " + val3)
                 if (val1 > 170 && val2 > 170) {
                     if (val3 > 170 < 128) {
                         return "#" + this.getHexFromInt(255-val1) + this.getHexFromInt(255-val2) + this.getHexFromInt(val3 + 128)
@@ -114,7 +113,6 @@
                 const colors = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']
                 const val1 = Math.floor(val/16)
                 const val2 = (val % 16)
-                console.log(val1)
                 return colors[val1] + colors[val2]
             },
             getComplementaryColor: function(hex) {

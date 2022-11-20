@@ -54,7 +54,7 @@ const dataRequestModule = {
     }
   },
   actions: {
-    createObjects({commit}, cryptosObjects) {
+    async createObjects({commit}, cryptosObjects) {
       return new Promise((resolve)=> {
         axios.request(OPTIONS_CRYPTO)
             .then((response)=> {
@@ -78,11 +78,9 @@ const dataRequestModule = {
               commit('cryptosObjects', obj)
             })
             .catch(function (error) {
-              //commit('throwError')
               console.log(error);
             })
             .then(()=> {
-              console.log(this.getters.cryptosObjects)
               axios.request(OPTIONS_FIAT)
               .then((response)=> {
                 const obj = {}
@@ -95,13 +93,12 @@ const dataRequestModule = {
                   obj[key] = fiat
                 }
                 commit('fiatsObjects', obj)
-                console.log(obj)
               })
               .catch(function (error) {
                 console.log(error)
               })
               .then(()=>{
-                console.log(this.getters.fiatsObjects)
+                commit('setLastUpdateTime')
                 resolve()
               })
             })
