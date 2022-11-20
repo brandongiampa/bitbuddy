@@ -47,10 +47,6 @@
         methods: {
             changeIncrementValue(factor) {
                 this.$emit('changeIncrementValue', factor)
-                console.log(factor)
-                console.log(this.increment * factor)
-                console.log(.1 * .1)
-                console.log("----------")
             }
         },
         emits: [
