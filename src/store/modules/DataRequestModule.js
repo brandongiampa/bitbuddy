@@ -62,17 +62,40 @@ const dataRequestModule = {
               const coins = response.data.data.coins
               for (let coin of coins) {
                 const crypto = new CryptoCurrency()
-                crypto.setName(coin.name)
-                crypto.setSymbol(coin.symbol)
-                crypto.setUUID(coin.uuid)
-                crypto.setRank(coin.rank)
-                crypto.setIconURL(coin.iconUrl)
-                crypto.setToUSD(coin.price)
-                crypto.setSparkline(coin.sparkline)
-                crypto.setMarketCap(coin.marketCap)
-                crypto.setChange(coin.change)
-                crypto.setCoinrankingURL(coin.coinrankingUrl)
-                crypto.setColor(coin.color)
+
+                if (coin.name && coin.name !== "") crypto.setName(coin.name)
+                else continue
+
+                if (coin.symbol && coin.symbol !== "") crypto.setSymbol(coin.symbol)
+                else continue
+
+                if (coin.uuid && coin.uuid !== "") crypto.setUUID(coin.uuid)
+                else continue
+
+                if (coin.rank !== null) crypto.setRank(coin.rank)
+                else continue
+
+                if (coin.price !== null) crypto.setToUSD(coin.price)
+                else continue
+
+                if (coin.iconUrl && coin.iconUrl !== "") crypto.setIconURL(coin.iconUrl)
+                else continue
+
+                if (coin.sparkline && coin.sparkline.length) crypto.setSparkline(coin.sparkline)
+                else continue
+
+                if (coin.marketCap) crypto.setMarketCap(coin.marketCap)
+                else continue
+
+                if (coin.change) crypto.setChange(coin.change)
+                else continue
+
+                if (coin.coinrankingUrl && crypto.coinrankingUrl !== "") crypto.setCoinrankingURL(coin.coinrankingUrl)
+                else continue
+
+                if (coin.color && coin.color !== "") crypto.setColor(coin.color)
+                else continue
+                
                 obj[coin.symbol] = crypto
               }
               commit('cryptosObjects', obj)
