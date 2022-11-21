@@ -50,4 +50,9 @@ export default {
   h1, h2 {
     font-family: 'Orbitron', serif;
   }
+  @media only screen and (max-width: 400px) {
+        h1 {
+            font-size: 1.8rem !important;
+        }
+    }
 </style>
