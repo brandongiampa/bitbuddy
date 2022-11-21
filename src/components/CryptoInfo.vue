@@ -2,10 +2,12 @@
     <div class="crypto-info p-5">
         <div class="container">
             <header>
-                <a :href="crypto.getCoinrankingURL()" target="_blank" :style="`color: ${linkColor};`">
-                    <div style="height:175px; display: flex; flex-direction: row; justify-content: center; align-items: flex-end;">
+                <div style="height:175px; display: flex; flex-direction: row; justify-content: center; align-items: flex-end; margin: auto;">
+                    <a :href="crypto.getCoinrankingURL()" target="_blank" :style="`color: ${linkColor};`">
                         <img :src="crypto.getIconURL()" />
-                    </div>
+                    </a>
+                </div>
+                <a :href="crypto.getCoinrankingURL()" target="_blank" :style="`color: ${linkColor};`">
                     <h2>{{`${crypto.getName()} (${crypto.getSymbol()})`}}</h2>
                 </a>
                 <p>
