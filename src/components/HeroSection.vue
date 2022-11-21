@@ -1,6 +1,8 @@
 <template>
     <div id="hero-image" class="position-relative text-center bg-dark text-light">
-        <h1 v-if="!isMainPage">ABOUT</h1>
+        <div v-if="!isMainPage" class="col-md-5 px-3 py-5 p-lg-5 mx-auto position-relative">
+            <h1 class="display-4 font-weight-normal mb-4">About Bitbuddy</h1>
+        </div>
         <currency-conversion-form v-if="isMainPage"></currency-conversion-form>
         <div class="product-device box-shadow d-none d-md-block"></div>
         <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
@@ -10,7 +12,7 @@
 <style scoped>
 #hero-image {
     background-image: url('../assets/blockchain-large.png');
-    min-height: 400px;
+    /*min-height: 400px;*/
 }
 #hero-image::before {
     content: "";
