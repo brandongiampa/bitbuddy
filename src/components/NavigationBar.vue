@@ -1,11 +1,13 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
         <div class="container">
-            <router-link 
-                to="/"><img alt="Bitbuddy logo" 
+            <router-link to="/">
+              <img 
+                alt="Bitbuddy" 
                 src="../assets/logo-orange.png"
                 class="navbar-brand"
-            ></router-link>
+              >
+            </router-link>
             <button 
                 class="navbar-toggler" 
                 type="button" data-bs-toggle="collapse" 
@@ -36,7 +38,7 @@ nav {
     }
   }
   img {
-    max-height: 70px;
+    max-height: 60px;
   }
 }
 </style>
