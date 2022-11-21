@@ -242,8 +242,8 @@
                 formClasses: 'col-12 col-lg-6 p-0 p-lg-3',
                 radioGroupClasses: 'px-5 pt-lg-2',
                 currencyRowClasses: 'row px-5 px-lg-0 py-0 mb-4 mb-md-0', //change mb according to whether increment widget displays
-                currencyAmountClasses: 'col-12 col-md-7 p-0 m-0',
-                currencySelectClasses: 'col-12 col-md-5 m-0 p-0',
+                currencyAmountClasses: 'col-12 col-sm-8 col-md-7 p-0 m-0',
+                currencySelectClasses: 'col-12 col-sm-4 col-md-5 m-0 p-0',
                 incrementWidgetClasses: 'd-none d-md-block px-5 px-lg-0 py-0 mb-4'
             }
         },
