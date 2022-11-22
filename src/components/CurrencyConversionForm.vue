@@ -1,6 +1,6 @@
 <template>
-    <div class="col-md-5 px-3 py-5 p-lg-5 mx-auto position-relative">
-        <h1 class="display-4 font-weight-normal mb-4">Bitbuddy Realtime Converter</h1>
+    <div class="col-md-5 px-3 py-4 py-sm-5 p-lg-5 mx-auto position-relative">
+        <h1 class="display-4 font-weight-normal mb-3 mb-sm-4">Bitbuddy Realtime Converter</h1>
         <div class="position-relative">
             <div class="row">
                 <div :class="formClasses">
@@ -86,7 +86,7 @@
                 </div>
                 <!--END RIGHT FORM-->
             </div>
-            <span style="font-weight:200; color: #f6f6f6; font-style: italic;" class="text-center font-weight-light font-italic">{{timeString}}</span>
+            <span style="font-weight:200; color: #f6f6f6; font-style: italic;" class="text-center font-weight-light font-italic updated">{{timeString}}</span>
         </div>
         <div v-if="disableInterface" class="overlay">
             <span class="text-light">Loading data...</span>
@@ -298,6 +298,7 @@
     h5 {
         color: #ccc !important;
         font-weight: light !important;
+        margin-bottom: 2px;
     }
     input[type=radio] {
         display: none;
@@ -311,6 +312,10 @@
     input[type=radio]:checked ~ label {
         background-color: black;
         color: #efefef;
+    }
+    .updated {
+        font-size: .8em;
+        line-height: .8em;
     }
     .overlay {
         background: #111111ee;
@@ -332,4 +337,9 @@
             }
         }
     }
+    @media only screen and (max-width: 400px) {
+      h5 {
+        font-size: .8em;
+      }
+  }
 </style>

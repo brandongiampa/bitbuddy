@@ -40,5 +40,10 @@ nav {
   img {
     max-height: 60px;
   }
+  @media only screen and (max-width: 400px) {
+    img {
+      max-height: 50px;
+    }
+  }
 }
 </style>

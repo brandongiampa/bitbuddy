@@ -49,8 +49,8 @@ export default {
     font-family: 'Orbitron', serif;
   }
   @media only screen and (max-width: 400px) {
-        h1 {
-            font-size: 1.8rem !important;
-        }
-    }
+      h1 {
+          font-size: 1.4rem !important;
+      }
+  }
 </style>
